@@ -17,20 +17,17 @@ previous.addEventListener("click", () => {
   }
 });
 
-
 // Removemos lo que habia y agregamos 9 mas segun su id
 next.addEventListener("click", () => {
-    offset += 9;
-    removeChildNodes(pokemonContainer);
-    fetchPokemons(offset, limit);
+  offset += 9;
+  removeChildNodes(pokemonContainer);
+  fetchPokemons(offset, limit);
 });
-
-
 
 // Funcion para traer un pokemon segun su id.
 // Le damos display none para que cuando cargue el pokemon se quite el spinner.
-function fetchPokemon(id) {
-  fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
+async function fetchPokemon(id) {
+  await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
     .then((res) => res.json())
     .then((data) => {
       createPokemon(data);
@@ -38,18 +35,14 @@ function fetchPokemon(id) {
     });
 }
 
-
-
 // Funcion para traer una cantidad determinada de pokemons.
 // Cada vez que recargamos sale el spinner.
-function fetchPokemons(offset, limit) {
+async function fetchPokemons(offset, limit) {
   spinner.style.display = "block";
   for (let i = offset; i <= offset + limit; i++) {
-    fetchPokemon(i);
+    await fetchPokemon(i);
   }
 }
-
-
 
 // Funcion para visualizar el pokemon en el DOM
 function createPokemon(pokemon) {
@@ -94,7 +87,6 @@ function createPokemon(pokemon) {
   pokemonContainer.appendChild(flipCard);
 }
 
-
 //Funcion para solo traer las primeras 3 stats del pokemon.
 function progressBars(stats) {
   const statsContainer = document.createElement("div");
@@ -131,7 +123,6 @@ function progressBars(stats) {
 
   return statsContainer;
 }
-
 
 // Mientras que el elemento padre tenga un elemento, vamos a quitarselo.
 function removeChildNodes(parent) {
